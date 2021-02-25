@@ -19,6 +19,7 @@ def ridge_plot(data, *args, xlabel=False, ylabel=False, labels=False, figname=No
     *args:
         'dots': add the 'o' str to the plt.<plt_type>
         'slalomaxis': numbers on the y axis change between left and right to prevent overlap
+        'eqaxis': put all plots on the same axis
         'x_lim_S': limit the x axis based on the smallest x ticks insted of the largest (default)
         'grid': turn on grid
         'squeeze': set spacing between subplots to -.5. This turns ON 'slalomaxis' and OFF 'grid'.
