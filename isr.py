@@ -14,19 +14,41 @@ plt.rcParams.update({
 })
 
 def isr(params=None):
+    """Calculate an incoherent scatter spectrum.
+
+    Parameters
+    ----------
+    params : dict
+        Give the physical parameters of the IS experiment.
+        'N_f' -- number of data points along the frequency axis
+        'f_min' -- lower bound of frequency axis
+        'f_max' -- upper bound of frequency axis
+        'f' -- radar frequency
+        'T_e' -- electron temperature
+        'T_i' -- ion temperature
+        'n_e' -- electron number density
+        'B' -- magnetic field strength
+        'aspect' -- aspect angle
+        'M' -- ion mass in amu
+
+    Returns
+    -------
+    np.ndarray, np.ndarray
+        The first array if the frequency axis while the second is the echo power at each frequency
+    """
     # Set physical parameters
     if params is None:
         N_f = cf.N_F
         f_min = -2e6
         f_max = 2e6
-        f = cf.f  # 1/s ~ radar frequency
-        T_e = cf.T_e  # K ~ electron temperature
-        T_i = cf.T_i  # K ~ ion temperature
-        n_e = cf.n_e  # 1/m^3 ~ electron number density
-        B = cf.B  # T ~ magnetic field strength (towards Earth)
-        aspect = cf.aspect  # degree ~ radar pointing direction to magnetic field line
+        f = cf.f  # 1/s - radar frequency
+        T_e = cf.T_e  # K - electron temperature
+        T_i = cf.T_i  # K - ion temperature
+        n_e = cf.n_e  # 1/m^3 - electron number density
+        B = cf.B  # T - magnetic field strength (towards Earth)
+        aspect = cf.aspect  # degree - radar pointing direction to magnetic field line
         aspect = np.pi / 180 * aspect
-        M_amu = cf.M  # amu ~ ion mass
+        M_amu = cf.M  # amu - ion mass
         M = M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
     else:
         N_f = params['N_f']
@@ -41,7 +63,7 @@ def isr(params=None):
         aspect = np.pi / 180 * aspect
         M_amu = params['M']
         M = M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
-    nu = 0  # 1/s ~ collision frequency
+    nu = 0  # 1/s - collision frequency
 
     # Calculate constants
     k = - 4 * np.pi * f / const.c
@@ -62,6 +84,7 @@ def isr(params=None):
     chi_e = 2 * Xp**2 * Fe
     chi_i = 2 * Xp**2 * Fi
 
+    # Calculate the IS spectrum
     with np.errstate(divide='ignore', invalid='ignore'):
         IS = n_e / (np.pi * 2 * np.pi * f_ax) * \
                 (np.imag(Fe) * np.abs(1 + chi_i)**2 + np.imag(Fi) * np.abs(chi_e)**2) / \
@@ -70,6 +93,24 @@ def isr(params=None):
     return f_ax, IS
 
 def F(f_ax, y, nu, G):
+    """Calculate the helper function 'F'.
+
+    Parameters
+    ----------
+    f_ax : np.ndarray
+        The frequency axis
+    y : np.ndarray
+        Axis of integration in the Gordeyev integral
+    nu : float or int
+        The collision frequency
+    G : np.ndarray
+        The integrand in the Gordeyev integral
+
+    Returns
+    -------
+    np.ndarray
+        The 'F' function
+    """
     # Calculate the F functions that include susceptibility
     a = np.array([])
     for f in f_ax:
@@ -81,6 +122,30 @@ def F(f_ax, y, nu, G):
     return func
 
 def maxwellian_integrand(y, nu, k, aspect, T, w_c, m):
+    """Calculate a Maxwellian integrand for a Gordeyev integral.
+    
+    Parameters
+    ----------
+    y : np.ndarray
+        Axis of integration in the Gordeyev integral
+    nu : float or int
+        The collision frequency
+    k : float
+        The radar wave number
+    aspect : float
+        The aspect anngle in radians
+    T : float
+        Temperature
+    w_c : float
+        Gyro frequency
+    m : float
+        Mass in kg
+
+    Returns
+    -------
+    np.ndarray
+        The Maxwellian integrand to be used in the Gordeyev integral
+    """
     G = np.exp(- y * nu -
             k**2 * np.sin(aspect)**2 * T * const.k /
             (m * w_c**2) * (1 - np.cos(w_c * y)) -
@@ -89,16 +154,63 @@ def maxwellian_integrand(y, nu, k, aspect, T, w_c, m):
     return G
 
 def my_integration_method(w, y, G):
+    """A simple wrapper for integrating of the Gordeyev integral.
+
+    Parameters
+    ----------
+    w : float
+        The angular/signed frequency to be evaluated
+    y : np.ndarray
+        Axis of integration in the Gordeyev integral
+    G : np.ndarray
+        The integrand in the Gordeyev integral
+
+    Returns
+    -------
+    np.ndarray
+        The value of the Gordeyev integral at each frequency data points
+    """
     val = np.exp(1j * w * y) * G
     sint = si.simps(val, y)
     return sint
 
 def debye(T, n):
+    """Calculate the Debye length for elecrons.
+
+    Parameters
+    ----------
+    T : float
+        Temperature
+    n : float
+        Electron number density
+
+    Returns
+    -------
+    float
+        The Debye length
+    """
     ep0 = 1e-9 / 36 / np.pi
     l_D = (ep0 * const.k * T / (n * const.e**2))**(1 / 2)
     return l_D
 
 def gyro(p, B, m=16):
+    """Calculate the gyro frequency of a particle species.
+
+    Parameters
+    ----------
+    p : str
+        A string specifying the particle species
+        ({'e', 'i'} are recognized as electrons and ions)
+    B : float
+        The magnetic field strength
+    m : float (default: 16)
+        Particle mass in amu
+
+    Returns
+    -------
+    float
+        The gyro frequency
+    """
     if p == 'e':
         w = const.e * B / const.m_e
     elif p == 'i':
