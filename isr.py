@@ -13,7 +13,7 @@ plt.rcParams.update({
     'axes.unicode_minus': False,
 })
 
-def isr(params=None):
+def isr(params=None) -> np.ndarray:
     """Calculate an incoherent scatter spectrum.
 
     Parameters
@@ -121,7 +121,7 @@ def F(f_ax, y, nu, G):
     func = 1 + (1j * 2 * np.pi * f_ax + nu) * a
     return func
 
-def maxwellian_integrand(y, nu, k, aspect, T, w_c, m):
+def maxwellian_integrand(y, nu, k, aspect, T, w_c, m) -> np.ndarray:
     """Calculate a Maxwellian integrand for a Gordeyev integral.
     
     Parameters
