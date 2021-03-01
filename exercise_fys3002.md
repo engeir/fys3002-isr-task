@@ -125,7 +125,7 @@ Explain what the term $f_{\alpha, 1}$ in eq.\ (@eq:perturbation) describe.
 ### Task 3 {-}
 Explain what the two terms in the square bracket in eq.\ (@eq:number_density_3) describe.
 
-## *Problem 2* {-}
+## *Problem 2* {#prob:2 -}
 Using any one of the expressions for $\langle |n_\mathrm{e}(\boldsymbol{k}, \omega)|^2\rangle$, write a program that calculates the power spectral density. The program should accept a number of input parameters:
 
 > $f_\mathrm{r}$
@@ -151,7 +151,7 @@ Using any one of the expressions for $\langle |n_\mathrm{e}(\boldsymbol{k}, \ome
 
 Explain the code. Some things to consider:
 
--   Which equations are solved where in the code?
+-   Where in the code were the different equations solved?
 -   How was the numerical calculation implemented? 
 
 The code itself should be well commented and included as an appendix.
@@ -173,14 +173,17 @@ $\theta$       | [$\si{\degree}$] | $135$
 for frequencies $f\in[-\num{2e6},\num{2e6}]$.
 
 ### Task 1 {-}
-Where could an experiment with these parameters be done? Make a sketch that include the radar beam and the magnetic field line, in addition to the radars approximate position on earth. Assume that the radar points directly upwards, i.e., towards zenith.
+Where could an experiment with these parameters be done?
+Make a sketch that include the radar beam and the magnetic field line, in addition to the radar's approximate position on earth.
+Assume that the radar points directly upwards, i.e., towards zenith.
 
 ### Task 2 {-}
-The spectrum is plotted for frequencies $f\in[-\num{2e6},\num{2e6}]$; relative to an observer at the radar location, which way does the features found at positive frequencies is the spectrum move?
+The spectrum is plotted for frequencies $f\in[-\num{2e6},\num{2e6}]$; relative to an observer at the radar location, which way does the features found at positive frequencies in the spectrum move?
 
 ### Task 3 {-}
 Plot the resulting power spectra calculated by the program and explain what the different peaks represent.
 
+> __*Comment*__: This cannot be solved without having already solved problem \ref{prob:2}. Include figure?
 
 ## *Problem 4* {#prob4 -}
 In this exercise we will use the parameters:
@@ -199,6 +202,8 @@ Calculate the power spectral density on $f\in[\num{3.5e6},\num{7e6}]$ for $T_\ma
 
 ### Task 2 {-}
 Explain the changes that can be seen as the electron temperature changes.
+
+> __*Comment*__: This cannot be solved without having already solved problem \ref{prob:2}. Include figure?
 
 ### Task 3 {-}
 Explain what the assumption $k^2\lambda_\mathrm{D}^2\ll 1$ is referring to. Is this assumption valid for all temperatures? Why/why not?
