@@ -1,5 +1,3 @@
-#!/home/een023/.virtualenvs/py3.9/bin/python
-
 import sys
 import numpy as np
 import scipy.constants as const
@@ -34,7 +32,8 @@ def isr(params=None) -> np.ndarray:
     Returns
     -------
     np.ndarray, np.ndarray
-        The first array if the frequency axis while the second is the echo power at each frequency
+        The first array if the frequency axis while
+        the second is the echo power at each frequency
     """
     # Set physical parameters
     if params is None:
@@ -73,7 +72,8 @@ def isr(params=None) -> np.ndarray:
 
     # Susceptibility
     f_ax = np.linspace(f_min, f_max, N_f)  # Frequency axis
-    y_e = np.linspace(0, 1.5e-4**(1 / cf.ORDER), cf.N_Y)**cf.ORDER  # Integration variable of Gordeyev
+    # Integration variable of Gordeyev
+    y_e = np.linspace(0, 1.5e-4**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
     y_i = np.linspace(0, 1.5e-2**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
     G_e = maxwellian_integrand(y_e, nu, k, aspect, T_e, w_c, const.m_e)
     G_i = maxwellian_integrand(y_i, nu, k, aspect, T_i, W_c, M)

@@ -35,7 +35,7 @@ def prob4():
     lab = [r'$T_\mathrm{e}=\,$' + f'{t_e}' + r'$\,\mathrm{K}$' for t_e in T_E]
     plt.figure('temps', figsize=(7,4))
     pylt.ridge_plot(data, 'squeeze', 'grid', xlabel='Frequency $f$', \
-            ylabel='Echo power [dB]', labels=lab, figname='temps')
+            ylabel='Echo power', labels=lab, figname='temps')
     # for d, l in zip(data, lab):
     #     plt.plot(d[0], d[1], label=l)
     # plt.legend()
@@ -68,8 +68,8 @@ def prob5():
     plt.ylabel('Echo power')
     # pylt.ridge_plot(data, 'squeeze', 'grid', xlabel='Frequency $f$', \
     #         ylabel='Echo power [dB]', labels=lab, figname='temps', ylim=(- 7e4, 6e5))
-    plt.savefig('ionline_soln.pdf')
+    # plt.savefig('ionline_soln.pdf')
     plt.show()
 
 if __name__ == '__main__':
-    prob5()
+    prob4()
