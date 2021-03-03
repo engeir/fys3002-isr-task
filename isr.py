@@ -92,7 +92,7 @@ def isr(params=None) -> np.ndarray:
     
     return f_ax, IS
 
-def F(f_ax, y, nu, G):
+def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
     """Calculate the helper function 'F'.
 
     Parameters
@@ -121,7 +121,15 @@ def F(f_ax, y, nu, G):
     func = 1 + (1j * 2 * np.pi * f_ax + nu) * a
     return func
 
-def maxwellian_integrand(y, nu, k, aspect, T, w_c, m) -> np.ndarray:
+def maxwellian_integrand(
+        y:np.ndarray,
+        nu:float,
+        k:float,
+        aspect:float,
+        T:float,
+        w_c:float,
+        m:float
+    ) -> np.ndarray:
     """Calculate a Maxwellian integrand for a Gordeyev integral.
     
     Parameters
@@ -153,7 +161,7 @@ def maxwellian_integrand(y, nu, k, aspect, T, w_c, m) -> np.ndarray:
 
     return G
 
-def my_integration_method(w, y, G):
+def my_integration_method(w:float, y:np.ndarray, G:np.ndarray) -> np.ndarray:
     """A simple wrapper for integrating of the Gordeyev integral.
 
     Parameters
@@ -174,7 +182,7 @@ def my_integration_method(w, y, G):
     sint = si.simps(val, y)
     return sint
 
-def debye(T, n):
+def debye(T:float, n:float) -> float:
     """Calculate the Debye length for elecrons.
 
     Parameters
@@ -193,7 +201,7 @@ def debye(T, n):
     l_D = (ep0 * const.k * T / (n * const.e**2))**(1 / 2)
     return l_D
 
-def gyro(p, B, m=16):
+def gyro(p:str, B:float, m=16) -> float:
     """Calculate the gyro frequency of a particle species.
 
     Parameters

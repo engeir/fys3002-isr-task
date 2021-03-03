@@ -62,13 +62,13 @@ def prob5():
     plt.grid(True, which="major", ls="-", alpha=0.2)
     for (x, y), col, l in zip(data[::-1], c, lab[::-1]):
         plt.plot(x, y, f'{col}', label=l)
-    # plt.legend()
-    plt.tick_params(axis='both', which='both', labelbottom=False, labelleft=False)
+    plt.legend()
+    # plt.tick_params(axis='both', which='both', labelbottom=False, labelleft=False)
     plt.xlabel(r'Frequency $f$')
     plt.ylabel('Echo power')
     # pylt.ridge_plot(data, 'squeeze', 'grid', xlabel='Frequency $f$', \
     #         ylabel='Echo power [dB]', labels=lab, figname='temps', ylim=(- 7e4, 6e5))
-    plt.savefig('ionline.pdf')
+    plt.savefig('ionline_soln.pdf')
     plt.show()
 
 if __name__ == '__main__':
