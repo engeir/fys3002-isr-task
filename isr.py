@@ -37,50 +37,50 @@ def isr(params=None) -> np.ndarray:
     """
     # Set physical parameters
     if params is None:
-        N_f = cf.N_F
-        f_min = -2e6
-        f_max = 2e6
-        f = cf.f  # 1/s - radar frequency
-        T_e = cf.T_e  # K - electron temperature
-        T_i = cf.T_i  # K - ion temperature
-        n_e = cf.n_e  # 1/m^3 - electron number density
-        B = cf.B  # T - magnetic field strength (towards Earth)
-        aspect = cf.aspect  # degree - radar pointing direction to magnetic field line
-        aspect = np.pi / 180 * aspect
-        M_amu = cf.M  # amu - ion mass
-        M = M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
+        N_f     =  cf.N_F
+        f_min   =  -2e6
+        f_max   =  2e6
+        f       =  cf.f                                 # 1/s      - radar frequency
+        T_e     =  cf.T_e                               # K        - electron temperature
+        T_i     =  cf.T_i                               # K        - ion temperature
+        n_e     =  cf.n_e                               # 1/m^3    - electron number density
+        B       =  cf.B                                 # T        - magnetic field strength (towards Earth)
+        aspect  =  cf.aspect                            # degree   - radar pointing direction to magnetic field line
+        aspect  =  np.pi / 180 * aspect
+        M_amu   =  cf.M                                 # amu      - ion mass
+        M       =  M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
     else:
-        N_f = params['N_f']
-        f_min = params['f_min']
-        f_max = params['f_max']
-        f = params['f']
-        T_e = params['T_e']
-        T_i = params['T_i']
-        n_e = params['n_e']
-        B = params['B']
-        aspect = params['aspect']
-        aspect = np.pi / 180 * aspect
-        M_amu = params['M']
+        N_f     =  params['N_f']
+        f_min   =  params['f_min']
+        f_max   =  params['f_max']
+        f       =  params['f']
+        T_e     =  params['T_e']
+        T_i     =  params['T_i']
+        n_e     =  params['n_e']
+        B       =  params['B']
+        aspect  =  params['aspect']
+        aspect  =  np.pi / 180 * aspect
+        M_amu   =  params['M']
         M = M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
     nu = 0  # 1/s - collision frequency
 
     # Calculate constants
-    k = - 4 * np.pi * f / const.c
-    l_D = debye(T_e, n_e)
-    w_c = gyro('e', B)
-    W_c = gyro('i', B, M_amu)
+    k     = - 4 * np.pi * f / const.c
+    l_D   = debye(T_e, n_e)
+    w_c   = gyro('e', B)
+    W_c   = gyro('i', B, M_amu)
 
     # Susceptibility
-    f_ax = np.linspace(f_min, f_max, N_f)  # Frequency axis
+    f_ax  = np.linspace(f_min, f_max, N_f)  # Frequency axis
     # Integration variable of Gordeyev
-    y_e = np.linspace(0, 1.5e-4**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
-    y_i = np.linspace(0, 1.5e-2**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
-    G_e = maxwellian_integrand(y_e, nu, k, aspect, T_e, w_c, const.m_e)
-    G_i = maxwellian_integrand(y_i, nu, k, aspect, T_i, W_c, M)
-    Fe = F(f_ax, y_e, nu, G_e)
-    Fi = F(f_ax, y_i, nu, G_i)
+    y_e   = np.linspace(0, 1.5e-4**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
+    y_i   = np.linspace(0, 1.5e-2**(1 / cf.ORDER), cf.N_Y)**cf.ORDER
+    G_e   = maxwellian_integrand(y_e, nu, k, aspect, T_e, w_c, const.m_e)
+    G_i   = maxwellian_integrand(y_i, nu, k, aspect, T_i, W_c, M)
+    Fe    = F(f_ax, y_e, nu, G_e)
+    Fi    = F(f_ax, y_i, nu, G_i)
 
-    Xp = (1 / (2 * l_D**2 * k**2))**(1 / 2)
+    Xp    = (1 / (2 * l_D**2 * k**2))**(1 / 2)
     chi_e = 2 * Xp**2 * Fe
     chi_i = 2 * Xp**2 * Fi
 
