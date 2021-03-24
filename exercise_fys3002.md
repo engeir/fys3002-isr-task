@@ -33,6 +33,7 @@ $$
 $$ {#eq:electron_number_density}
 
 ## Vlasov's equation
+
 Let us start from the Vlasov's equation.
 This is similar to the Boltzmann equation, but we omit the collision term.
 The Vlasov equation can be written as (FH 4.24)
@@ -46,33 +47,26 @@ electric and magnetic fields, both functions of space and time.
 
 Let us assume all parameters to consist of a linear term and a higher order term, that is, we assume
 all parameters are on the form $f=f_0[1+f_1]$ where $f_0$ is linear and $f_1$ is non-linear and that
-$f_1 \ll 1$. Let us also write up the Fourier transform and Laplace transform of $f_1$: 
-$$
-\begin{aligned} f_1(\boldsymbol{r},\boldsymbol{v},t)&=\sum_{\boldsymbol{k}}
+$f_1 \ll 1$. Let us also write up the Fourier transform and Laplace transform of $f_1$:
+$$ \begin{aligned} f_1(\boldsymbol{r},\boldsymbol{v},t)&=\sum_{\boldsymbol{k}}
 f_1(\boldsymbol{k},\boldsymbol{v},t)\exp(-i\boldsymbol{k}\cdot\boldsymbol{r})\\
 f_1(\boldsymbol{k},\boldsymbol{v},s)&=\int_0^\infty
-f_1(\boldsymbol{k},\boldsymbol{v},t)\exp(-st)\mathrm{d}t \end{aligned} 
-$$
-We linearize the Vlasov equation and obtain 
-$$
-sf_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)-f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},t=0)-i\boldsymbol{k}\cdot
-\boldsymbol{v}f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)+\mu_\alpha\left[
-\frac{1}{f_{\alpha,0}(\boldsymbol{v})}\boldsymbol{E}\cdot\partial_{\boldsymbol{v}}f_{\alpha,0}(\boldsymbol{v})-\boldsymbol{B}[\boldsymbol{v}\times\partial_{\boldsymbol{v}}f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)]
-\right]=0
-$$
-It can be shown that this has solution
-$$
+f_1(\boldsymbol{k},\boldsymbol{v},t)\exp(-st)\mathrm{d}t. \end{aligned} $$ We linearize the Vlasov
+equation and obtain $$ sf_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)
+-f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},t=0) -i\boldsymbol{k} \cdot
+\boldsymbol{v}f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s) +\mu_\alpha \left[
+\frac{1}{f_{\alpha,0}(\boldsymbol{v})}\boldsymbol{E}
+\cdot\partial_{\boldsymbol{v}}f_{\alpha,0}(\boldsymbol{v}) -\boldsymbol{B}
+[\boldsymbol{v}\times\partial_{\boldsymbol{v}}f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)]
+\right]=0. $$ It can be shown that this has solution $$
 f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s) =\frac{1}{\mu_\alpha B} \int_{-\infty}^\varphi
 g_\alpha (\varphi, \varphi') \left\{ f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v}',t=0)\mp
-\frac{i2X_\mathrm{p}^2}{f_{\alpha,0}(\boldsymbol{v}')}\boldsymbol{k}\cdot\boldsymbol{v}'[Zn_\mathrm{i}(\boldsymbol{k},s)-n_\mathrm{e}(\boldsymbol{k},s)]
-\right\} \mathrm{d}\varphi'
-$$ {#eq:perturbation} 
-The primes (e.g. on $\boldsymbol{v}'$) refer to terms on the *unperturbed* orbit. Specifically we
-have that the unperturbed velocity is
-$$
-\boldsymbol{v}'=\mathbf{e}_1 w\cos\varphi'+\mathbf{e}_2 w\sin\varphi'+\mathbf{e}_3 u
-$$
-and we see that the velocity is a function of the variable $\varphi$ (i.e.,
+\frac{i2X_\mathrm{p}^2}{f_{\alpha,0}(\boldsymbol{v}')}\boldsymbol{k} \cdot\boldsymbol{v}'
+[Zn_\mathrm{i}(\boldsymbol{k},s) - n_\mathrm{e}(\boldsymbol{k},s)] \right\} \mathrm{d}\varphi'
+$${#eq:perturbation} where $Z$ is the ion charge in units of the elementary charge. The primes (e.g.
+on $\boldsymbol{v}'$) refer to terms on the *unperturbed* orbit. Specifically we have that the
+unperturbed velocity is $$ \boldsymbol{v}' = \mathbf{e}_1 w\cos\varphi'+\mathbf{e}_2 w\sin\varphi'
++\mathbf{e}_3 u $$ and we see that the velocity is a function of the variable $\varphi$ (i.e.,
 $f_1(\boldsymbol{k},\boldsymbol{v},s)=f_1(\boldsymbol{k},w,u,\varphi,s)$). $g(\varphi,\varphi')$ can
 be seen as an integrating factor [@Bernstein1958].
 
@@ -80,41 +74,34 @@ Density perturbations can then be obtained by integration:
 $$
 n_\alpha(\boldsymbol{k},s)=\int
 f_{\alpha,0}(\boldsymbol{v}')f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)\mathrm{d}\boldsymbol{v}
-=n_{\alpha,0}\int f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)\mathrm{d}\boldsymbol{v} 
+=n_{\alpha,0}\int f_{\alpha,1}(\boldsymbol{k},\boldsymbol{v},s)\mathrm{d}\boldsymbol{v}.
 $$
 
 ## Electron number density
-The function $F_\alpha$ is defined as 
+
+The function $F_\alpha$ is defined as
 $$
 \begin{aligned} F_\alpha(\boldsymbol{k},\omega) &=1+i\omega\int_0^\infty \exp\left\{ i\omega
 \tau-\frac{k_\mathrm{r}^2 T_\alpha k_\mathrm{B}\sin^2\theta}{m_\alpha\Omega_\alpha^2}[1-\cos(\omega
 \tau)]-\frac{1}{2}(k_\mathrm{r}\tau\cos\theta)^2\frac{T_\alpha k_\mathrm{B}}{m_\alpha}
-\right\}\mathrm{d}\tau\\ &=1+i\omega G_\alpha(\boldsymbol{k},\omega) \end{aligned}
+\right\}\mathrm{d}\tau\\ &=1+i\omega G_\alpha(\boldsymbol{k},\omega). \end{aligned}
 $$
 The integral $G_\alpha(\boldsymbol{k},\omega)$ is often referred to as a Gordeyev integral. Another
-useful parameter is: 
-$$
+useful parameter is: $$
 \chi_\alpha(\boldsymbol{k},\omega)=\frac{1}{k^2\lambda_\mathrm{D}^2}F_\alpha(\boldsymbol{k},\omega)
-=\frac{1}{(k\lambda_\mathrm{D})^2}[1+i\omega G_\alpha(\boldsymbol{k},\omega)]
-$${#eq:chi}
+=\frac{1}{k^2\lambda_\mathrm{D}^2}[1+i\omega G_\alpha(\boldsymbol{k},\omega)]. $${#eq:chi}
 
-Using our definitions of $F_\alpha$ and $\chi_\alpha$ we can now readily compute the IS spectrum
-from eq. (@eq:electron_number_density): 
-$$
-\langle |n_\mathrm{e}(\boldsymbol{k}, \omega)|^2\rangle
+Using our definitions of $F_\alpha$ and $\chi_\alpha$ we can now readily compute the IS spectrum in
+eq. (@eq:electron_number_density): $$ \langle |n_\mathrm{e}(\boldsymbol{k}, \omega)|^2\rangle
 =\frac{n_{\mathrm{e},0}}{\pi\omega}\frac{
 \Im\{F_\mathrm{e}\}|1+\chi_\mathrm{i}|^2+\Im\{F_\mathrm{i}\}|\chi_\mathrm{e}|^2 }{
-|1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 }.
-$${#eq:number_density_2}
-We may also rewrite the above using that $\Im\{F_\alpha\}=\omega G_\alpha$: 
-$$
-\langle |n_\mathrm{e}(\boldsymbol{k}, \omega)|^2\rangle
-=\frac{n_{\mathrm{e},0}}{\pi}\frac{
+|1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 }. $${#eq:number_density_2} We may also rewrite the above
+using that $\Im\{F_\alpha\}=\omega G_\alpha$: $$ \langle |n_\mathrm{e}(\boldsymbol{k},
+\omega)|^2\rangle =\frac{n_{\mathrm{e},0}}{\pi}\frac{
 G_\mathrm{e}|1+\chi_\mathrm{i}|^2+G_\mathrm{i}|\chi_\mathrm{e}|^2 }{
 |1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 }=\frac{n_{\mathrm{e},0}}{\pi}\left[\frac{
 G_\mathrm{e}|1+\chi_\mathrm{i}|^2 }{ |1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 }+\frac{
-G_\mathrm{i}|\chi_\mathrm{e}|^2 }{ |1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 }
-\right].
+G_\mathrm{i}|\chi_\mathrm{e}|^2 }{ |1+\chi_\mathrm{e}+\chi_\mathrm{i}|^2 } \right].
 $${#eq:number_density_3}
 
 # Problems
@@ -184,8 +171,8 @@ for frequencies $f\in[-\num{2e6},\num{2e6}]$.
 ### Task 1 {-}
 
 Where could an experiment with these parameters be done? Make a sketch that include the radar beam
-and the magnetic field line, in addition to the radar's approximate position on earth. Assume that
-the radar points directly upwards, i.e., towards zenith.
+and the magnetic field line of Earth, in addition to the radar's approximate position on earth.
+Assume that the radar points directly upwards, i.e., towards zenith.
 
 ### Task 2 {-}
 
@@ -196,9 +183,6 @@ radar location, which way does the features found at positive frequencies in the
 
 Plot the resulting power spectra calculated by the program and explain what the different peaks
 represent.
-
-> __*Comment*__: This cannot be solved without having already solved problem \ref{prob:2}. Include
-> figure?
 
 ## *Problem 4* {#prob4 -}
 In this exercise we will use the parameters:
@@ -218,11 +202,9 @@ Calculate the power spectral density on $f\in[\num{3.5e6},\num{7e6}]$ for
 $T_\mathrm{e}=\SI{2000}{\kelvin},\,\SI{4000}{\kelvin},\,\SI{6000}{\kelvin},$ and
 $\SI{8000}{\kelvin}$ and plot the power spectra.
 
-### Task 2 {-}
-Explain the changes that can be seen as the electron temperature changes.
+### Task 2 {-} 
 
-> __*Comment*__: This cannot be solved without having already solved problem \ref{prob:2}. Include
-> figure?
+Explain the changes that can be seen as the electron temperature change.
 
 ### Task 3 {-}
 

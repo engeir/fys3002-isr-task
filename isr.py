@@ -9,9 +9,10 @@ plt.rcParams.update({
     'text.usetex': True,
     'font.family': 'DejaVu Sans',
     'axes.unicode_minus': False,
+    'font.size': 15
 })
 
-def isr(params=None) -> np.ndarray:
+def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
     """Calculate an incoherent scatter spectrum.
 
     Parameters
@@ -31,9 +32,10 @@ def isr(params=None) -> np.ndarray:
 
     Returns
     -------
-    np.ndarray, np.ndarray
-        The first array if the frequency axis while
-        the second is the echo power at each frequency
+    f_ax : np.ndarray
+        Frequency axis
+    IS : np.ndarray
+        Echo power at each frequency
     """
     # Set physical parameters
     if params is None:
@@ -84,12 +86,12 @@ def isr(params=None) -> np.ndarray:
     chi_e = 2 * Xp**2 * Fe
     chi_i = 2 * Xp**2 * Fi
 
-    # Calculate the IS spectrum
+    # Calculate the IS spectrum (and ignore "divide" and "invalid" errors)
     with np.errstate(divide='ignore', invalid='ignore'):
         IS = n_e / (np.pi * 2 * np.pi * f_ax) * \
                 (np.imag(Fe) * np.abs(1 + chi_i)**2 + np.imag(Fi) * np.abs(chi_e)**2) / \
                 (np.abs(1 + chi_e + chi_i)**2)
-    
+
     return f_ax, IS
 
 def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
@@ -108,7 +110,7 @@ def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
 
     Returns
     -------
-    np.ndarray
+    func : np.ndarray
         The 'F' function
     """
     # Calculate the F functions that include susceptibility
@@ -117,7 +119,7 @@ def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
         w = 2 * np.pi * f
         sint = my_integration_method(w, y, G)
         a = np.r_[a, sint]
-    
+
     func = 1 + (1j * 2 * np.pi * f_ax + nu) * a
     return func
 
@@ -131,7 +133,7 @@ def maxwellian_integrand(
         m:float
     ) -> np.ndarray:
     """Calculate a Maxwellian integrand for a Gordeyev integral.
-    
+
     Parameters
     ----------
     y : np.ndarray
@@ -151,13 +153,13 @@ def maxwellian_integrand(
 
     Returns
     -------
-    np.ndarray
+    G : np.ndarray
         The Maxwellian integrand to be used in the Gordeyev integral
     """
     G = np.exp(- y * nu -
             k**2 * np.sin(aspect)**2 * T * const.k /
             (m * w_c**2) * (1 - np.cos(w_c * y)) -
-            .5 * (k * np.cos(aspect) * y)**2 * T * const.k / m) 
+            .5 * (k * np.cos(aspect) * y)**2 * T * const.k / m)
 
     return G
 
@@ -175,7 +177,7 @@ def my_integration_method(w:float, y:np.ndarray, G:np.ndarray) -> np.ndarray:
 
     Returns
     -------
-    np.ndarray
+    sint : np.ndarray
         The value of the Gordeyev integral at each frequency data points
     """
     val = np.exp(1j * w * y) * G
@@ -194,7 +196,7 @@ def debye(T:float, n:float) -> float:
 
     Returns
     -------
-    float
+    l_D : float
         The Debye length
     """
     ep0 = 1e-9 / 36 / np.pi
@@ -216,7 +218,7 @@ def gyro(p:str, B:float, m=16) -> float:
 
     Returns
     -------
-    float
+    w : float
         The gyro frequency
     """
     if p == 'e':

@@ -26,10 +26,13 @@ output:
 > What is the physical interpretation of $\chi$ in eq.\ (3)?
 
 Equation (3) is what is given in FH (4.35). The parameter $\chi$ describe the susceptibility of the
-medium, that is, the electron population and the ion population in the plasma. In this context the
-susceptibility is a scalar and its value describe how prone the medium is of being magnetized by an
-external magnetic field, as such, we get information about the long term behaviour of the plasma
-through the susceptibility function.
+medium, that is, the electron population and the ion population in the plasma. When we have no
+magnetic field the susceptibility is a scalar while as a magnetic field is introduced the
+susceptibility is a tensor. However, only motion parallel to the applied force represents work done
+on the system, so if the force is in the $z$ direction we need only one component of the tensor. The
+value of $\chi$ describe how prone the medium is of being magnetized by an external magnetic field,
+as such, we get information about the long term behaviour of the plasma through the susceptibility
+function. The $\chi$ functions incorporate the effects of the Coulomb interactions.
 
 ### Task 2 {-}
 > Explain what the term $f_{\alpha, 1}$ in eq.\ (2) describe.
