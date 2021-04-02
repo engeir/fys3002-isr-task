@@ -1,11 +1,10 @@
 import sys
+
+import config as cf
+import matplotlib.pyplot as plt
 import numba as nb
 import numpy as np
 import scipy.constants as const
-import scipy.integrate as si
-import matplotlib.pyplot as plt
-
-import config as cf
 
 plt.rcParams.update(
     {
@@ -47,14 +46,14 @@ def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
         N_f = cf.N_F
         f_min = -2e6
         f_max = 2e6
-        f = cf.f  # 1/s      - radar frequency
-        T_e = cf.T_e  # K        - electron temperature
-        T_i = cf.T_i  # K        - ion temperature
-        n_e = cf.n_e  # 1/m^3    - electron number density
-        B = cf.B  # T        - magnetic field strength (towards Earth)
-        aspect = cf.aspect  # degree   - radar pointing direction to magnetic field line
+        f = cf.f  # 1/s - radar frequency
+        T_e = cf.T_e  # K - electron temperature
+        T_i = cf.T_i  # K - ion temperature
+        n_e = cf.n_e  # 1/m^3 - electron number density
+        B = cf.B  # T - magnetic field strength (towards Earth)
+        aspect = cf.aspect  # degree - radar pointing direction to magnetic field line
         aspect = np.pi / 180 * aspect
-        M_amu = cf.M  # amu      - ion mass
+        M_amu = cf.M  # amu - ion mass
         M = M_amu * (const.m_p + const.m_n) / 2  # Convert to kg
     else:
         N_f = params["N_f"]
