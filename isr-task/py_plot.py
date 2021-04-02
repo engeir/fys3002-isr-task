@@ -1,7 +1,7 @@
 import itertools
 
-import matplotlib.pyplot as plt
 import matplotlib.gridspec as grid_spec
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -119,13 +119,12 @@ def ridge_plot(
         line_type = "-o" if "dots" in args else "-"
         line_type = kwargs["lt"] if "lt" in kwargs.keys() else line_type
         clr = kwargs["color"] if "color" in kwargs.keys() else col
-        if len(s) == 2:
-            l = p_func(s[0], s[1], line_type, color=clr, markersize=1.5)[0]
-        else:
-            l = p_func(s, line_type, color=clr, markersize=1.5)[0]
-
         # Append in line-list to create legend
-        l2.append(l)
+        if len(s) == 2:
+            l2.append(p_func(s[0], s[1], line_type, color=clr, markersize=1.5)[0])
+        else:
+            l2.append(p_func(s, line_type, color=clr, markersize=1.5)[0])
+
         ax_objs[-1].patch.set_alpha(0)
         # Scale all subplots to the same x axis
         plt.xlim([x_min, x_max])

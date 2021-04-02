@@ -1,5 +1,7 @@
 import time
-import isr, isr2
+
+import isr
+import isr2
 
 t0 = time.perf_counter()
 isr.isr()

@@ -1,11 +1,12 @@
 import time
-import numpy as np
-import matplotlib.pyplot as plt
-import isr2 as isr
-import py_plot as pylt
-import matplotlib.animation as animation
-import scipy.constants as const
+
 import config as cf
+import isr2 as isr
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import numpy as np
+import py_plot as pylt
+import scipy.constants as const
 
 
 def prob3():
@@ -119,7 +120,7 @@ def prob5():
     plt.show()
 
 
-def extra_mov():
+def extra_mov(save=False):
     # w, x, y = extra_data()
     with np.load("video_data.npz", mmap_mode="r") as f:
         w = f["w"]
@@ -158,8 +159,8 @@ def extra_mov():
         fig, animate, frames, interval=100, init_func=None, repeat=False
     )
     plt.show()
-    # ani.save('video.mp4',
-    #          writer=animation.FFMpegWriter(fps=60), dpi=400)
+    if save:
+        ani.save("video.mp4", writer=animation.FFMpegWriter(fps=60), dpi=400)
     plt.close(fig)
 
 
