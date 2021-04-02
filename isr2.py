@@ -95,6 +95,7 @@ def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
 
     return f_ax, IS
 
+@nb.njit(parallel=True)
 def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
     """Calculate the helper function 'F'.
 
@@ -115,15 +116,16 @@ def F(f_ax:np.ndarray, y:np.ndarray, nu:float, G:np.ndarray) -> np.ndarray:
         The 'F' function
     """
     # Calculate the F functions that include susceptibility
-    a = np.array([])
-    for f in f_ax:
-        w = 2 * np.pi * f
+    a = np.zeros(len(f_ax), dtype=np.complex128)
+    for f in range(len(f_ax)):
+        w = 2 * np.pi * f_ax[f]
         sint = my_integration_method(w, y, G)
-        a = np.r_[a, sint]
+        a[f] = sint
 
     func = 1 + (1j * 2 * np.pi * f_ax + nu) * a
     return func
 
+# @nb.njit(parallel=True)
 def maxwellian_integrand(
         y:np.ndarray,
         nu:float,
@@ -164,6 +166,15 @@ def maxwellian_integrand(
 
     return G
 
+@nb.njit
+def trapzl(y, x):
+    "Pure python version of trapezoid rule."
+    s = 0
+    for i in range(1, len(x)):
+        s += (x[i]-x[i-1])*(y[i]+y[i-1])
+    return s/2
+
+@nb.njit(parallel=True)
 def my_integration_method(w:float, y:np.ndarray, G:np.ndarray) -> np.ndarray:
     """A simple wrapper for integrating of the Gordeyev integral.
 
@@ -182,7 +193,8 @@ def my_integration_method(w:float, y:np.ndarray, G:np.ndarray) -> np.ndarray:
         The value of the Gordeyev integral at each frequency data points
     """
     val = np.exp(1j * w * y) * G
-    sint = si.simps(val, y)
+    sint = trapzl(val, y)
+    # sint = si.simps(val, y)
     return sint
 
 def debye(T:float, n:float) -> float:

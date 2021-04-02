@@ -1,18 +1,22 @@
+import time
 import numpy as np
 import matplotlib.pyplot as plt
-import isr
+import isr2 as isr
 import py_plot as pylt
 import matplotlib.animation as animation
 import scipy.constants as const
 import config as cf
 
 def prob3():
+    t0 = time.perf_counter()
     params = {
-            'N_f': int(1e3), 'f_min': -2e6, 'f_max': 2e6, 'f': 430e6, 'n_e': 2e10,
+            'N_f': int(1e4), 'f_min': -2e6, 'f_max': 2e6, 'f': 430e6, 'n_e': 2e10,
             'B': 3.5e-5, 'M': 16, 'T_e': 200, 'T_i': 200, 'aspect': 135
             }
     x, y = isr.isr(params)
     y = 10 * np.log10(y)
+    t1 = time.perf_counter()
+    print(f'Took {t1-t0:.2f} seconds')
 
     plt.figure(figsize=(7,4))
     plt.plot(x, y)
@@ -23,6 +27,7 @@ def prob3():
     plt.show()
 
 def prob4():
+    t0 = time.perf_counter()
     params = {
             'N_f': int(1e3), 'f_min': 3.5e6, 'f_max': 7.5e6, 'f': 933e6, 'n_e': 2e11,
             'B': 5e-5, 'M': 16, 'T_e': 2000, 'T_i': 2000, 'aspect': 180
@@ -34,6 +39,8 @@ def prob4():
         params['T_e'] = T_e
         x, y = isr.isr(params)
         data.append((x, y))
+    t1 = time.perf_counter()
+    print(f'Took {t1-t0:.2f} seconds')
 
     lab = [r'$T_\mathrm{e}=\,$' + f'{t_e}' + r'$\,\mathrm{K}$' for t_e in T_E]
     plt.figure('temps', figsize=(7,4))
@@ -42,10 +49,11 @@ def prob4():
     # for d, l in zip(data, lab):
     #     plt.plot(d[0], d[1], label=l)
     # plt.legend()
-    plt.savefig('temps.pdf')
+    # plt.savefig('temps.pdf')
     plt.show()
 
 def prob5():
+    t0 = time.perf_counter()
     params = {
             'N_f': int(1e3), 'f_min': - 5e3, 'f_max': 5e3, 'f': 430e6, 'n_e': 2e10,
             'B': 5e-5, 'M': 16, 'T_e': 300, 'T_i': 200, 'aspect': 180
@@ -58,6 +66,8 @@ def prob5():
         params['T_e'] = T_i * 1.5
         x, y = isr.isr(params)
         data.append((x, y))
+    t1 = time.perf_counter()
+    print(f'Took {t1-t0:.2f} seconds')
 
     lab = [r'$T_\mathrm{e}=\,$' + f'{t_e}' + r'$\,\mathrm{K}$' for t_e in T_I]
     plt.figure('temps', figsize=(7,4))
@@ -138,5 +148,7 @@ def extra_data():
     # return w, x_ax, y_ax
 
 if __name__ == '__main__':
-    extra_mov()
-    # prob3()
+    # extra_mov()
+    prob3()
+    prob4()
+    prob5()
