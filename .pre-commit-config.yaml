@@ -6,20 +6,20 @@ repos:
     name: isort
     stages: [commit]
     language: system
-    entry: poetry run isort
+    entry: poetry run isort isr-task
     types: [python]
 
   - id: black
     name: black
     stages: [commit]
     language: system
-    entry: poetry run black
+    entry: poetry run black isr-task
     types: [python]
 
   - id: flake8
     name: flake8
     stages: [commit]
     language: system
-    entry: poetry run flake8
+    entry: poetry run flake8 isr-task
     types: [python]
     exclude: setup.py
