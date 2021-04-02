@@ -3,7 +3,7 @@
 
 # Numerical precision
 ORDER = 3
-N_F = int(1e3)
+N_F = int(1e4)
 N_Y = int(8e4)
 
 # Gyro lines
