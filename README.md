@@ -10,7 +10,18 @@ Clone with
 git clone https://github.com/engeir/fys3002-isr-task.git isr-task
 ```
 
-Dependencies are handled using poetry:
+Built using `pytohn3.9`.
+
+
+<details><summary><i><b>Install python3.9</b></i></summary><br><ul>
+
+This assumes that [pyenv](https://github.com/pyenv/pyenv-installer) is installed.
+
+```sh
+pyenv install 3.9.2
+```
+
+</ul></details>
 
 <details><summary><i><b>Install poetry</b></i></summary><br><ul>
 
@@ -25,6 +36,8 @@ Install dependencies using poetry from folder `isr-task`:
 ```sh
 poetry install
 ```
+
+## Run
 
 Run as a package or as single scripts:
 
