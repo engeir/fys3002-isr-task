@@ -10,8 +10,6 @@ import isr_task.config as cf
 import isr_task.isr2 as isr
 import isr_task.py_plot as pylt
 
-# from . import __version__
-
 
 def prob3():
     t0 = time.perf_counter()
