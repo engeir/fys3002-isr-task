@@ -7,7 +7,7 @@
 Clone with
 
 ```sh
-git clone https://github.com/engeir/fys3002-isr-task.git
+git clone https://github.com/engeir/fys3002-isr-task.git isr-task
 ```
 
 Dependencies are handled using poetry:
@@ -20,10 +20,19 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 
 </ul></details>
 
-Install and create a virtualenv using poetry from folder `isr-task`:
+Install dependencies using poetry from folder `isr-task`:
 
 ```sh
 poetry install
-poetry shell
-python -m isr-task
+```
+
+Run as a package or as single scripts:
+
+```sh
+poetry run isr-task
+poetry run python soln.py
+poetry run python timing.py
+.
+.
+.
 ```
