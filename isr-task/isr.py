@@ -16,7 +16,7 @@ plt.rcParams.update(
 )
 
 
-def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
+def isr(params: dict = None) -> tuple[np.ndarray, np.ndarray]:
     """Calculate an incoherent scatter spectrum.
 
     Parameters
