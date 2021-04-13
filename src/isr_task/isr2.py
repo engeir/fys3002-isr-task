@@ -1,10 +1,11 @@
 import sys
 
-import config as cf
 import matplotlib.pyplot as plt
 import numba as nb
 import numpy as np
 import scipy.constants as const
+
+import isr_task.config as cf
 
 plt.rcParams.update(
     {

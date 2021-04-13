@@ -12,7 +12,7 @@ git clone https://github.com/engeir/fys3002-isr-task.git
 
 Dependencies are handled using poetry:
 
-<details><summary><i><b>Install</b></i></summary><br><ul>
+<details><summary><i><b>Install poetry</b></i></summary><br><ul>
 
 ```sh
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python

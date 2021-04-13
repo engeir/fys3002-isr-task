@@ -5,6 +5,9 @@ description = "ISR exercise for the course FYS-3002 at UiT"
 authors = ["engeir <eirroleng@gmail.com>"]
 license = "MIT"
 
+[tool.poetry.scripts]
+isr-task = "isr_task.soln:main"
+
 [tool.poetry.dependencies]
 python = ">=3.9, <3.10"
 scipy = "^1.6.2"

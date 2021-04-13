@@ -1,13 +1,16 @@
 import time
 
-import config as cf
-import isr2 as isr
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numba as nb
 import numpy as np
-import py_plot as pylt
 import scipy.constants as const
+
+import isr_task.config as cf
+import isr_task.isr2 as isr
+import isr_task.py_plot as pylt
+
+# from . import __version__
 
 
 def prob3():
@@ -214,9 +217,12 @@ def extra_data():
     # np.savez("video_data_ions_vectorized.npz", w=w, x_ax=x_ax, y_ax=y_ax)
 
 
-if __name__ == "__main__":
+def main():
     # extra_mov()
     # extra_data()
     prob3()
     prob4()
-    # prob5()
+    prob5()
+
+if __name__ == '__main__':
+    main()

@@ -1,2 +1,5 @@
 docs/*
 *.npz
+/.python-version
+/src/*.egg-info/
+__pycache__/
