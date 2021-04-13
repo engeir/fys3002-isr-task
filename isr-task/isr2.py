@@ -16,7 +16,7 @@ plt.rcParams.update(
 )
 
 
-def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
+def isr(params: dict = None) -> tuple[np.ndarray, np.ndarray]:
     """Calculate an incoherent scatter spectrum.
 
     Parameters
@@ -102,7 +102,7 @@ def isr(params=None) -> tuple[np.ndarray, np.ndarray]:
     return f_ax, IS
 
 
-@nb.njit(parallel=True)
+@nb.njit(parallel=True, cache=True)
 def F(f_ax: np.ndarray, y: np.ndarray, nu: float, G: np.ndarray) -> np.ndarray:
     """Calculate the helper function 'F'.
 
@@ -133,7 +133,7 @@ def F(f_ax: np.ndarray, y: np.ndarray, nu: float, G: np.ndarray) -> np.ndarray:
     return func
 
 
-# @nb.njit(parallel=True)
+@nb.njit(parallel=True, cache=True)
 def maxwellian_integrand(
     y: np.ndarray, nu: float, k: float, aspect: float, T: float, w_c: float, m: float
 ) -> np.ndarray:
@@ -175,17 +175,17 @@ def maxwellian_integrand(
     return G
 
 
-@nb.njit
-def trapzl(y, x):
+@nb.njit(parallel=True, cache=True)
+def trapzl(y: np.ndarray, x: np.ndarray) -> float:
     "Pure python version of trapezoid rule."
     s = 0
-    for i in range(1, len(x)):
+    for i in nb.prange(1, len(x)):
         s += (x[i] - x[i - 1]) * (y[i] + y[i - 1])
     return s / 2
 
 
-@nb.njit(parallel=True)
-def my_integration_method(w: float, y: np.ndarray, G: np.ndarray) -> np.ndarray:
+@nb.njit(parallel=True, cache=True)
+def my_integration_method(w: float, y: np.ndarray, G: np.ndarray) -> float:
     """A simple wrapper for integrating of the Gordeyev integral.
 
     Parameters
@@ -199,8 +199,8 @@ def my_integration_method(w: float, y: np.ndarray, G: np.ndarray) -> np.ndarray:
 
     Returns
     -------
-    sint : np.ndarray
-        The value of the Gordeyev integral at each frequency data points
+    sint : float
+        The value of the Gordeyev integral at the given frequency w (omega)
     """
     val = np.exp(1j * w * y) * G
     sint = trapzl(val, y)
@@ -228,7 +228,7 @@ def debye(T: float, n: float) -> float:
     return l_D
 
 
-def gyro(p: str, B: float, m=16) -> float:
+def gyro(p: str, B: float, m: int = 16) -> float:
     """Calculate the gyro frequency of a particle species.
 
     Parameters
@@ -255,7 +255,7 @@ def gyro(p: str, B: float, m=16) -> float:
     return w
 
 
-def plot(dB=True):
+def plot(dB: bool = True):
     x, y = isr()
     y = 10 * np.log10(y) if dB else y
 

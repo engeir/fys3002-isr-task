@@ -1,1 +1,2 @@
-video_data.npz
+docs/*
+*.npz

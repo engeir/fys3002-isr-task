@@ -4,6 +4,7 @@ import config as cf
 import isr2 as isr
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+import numba as nb
 import numpy as np
 import py_plot as pylt
 import scipy.constants as const
@@ -122,13 +123,19 @@ def prob5():
 
 def extra_mov(save=False):
     # w, x, y = extra_data()
-    with np.load("video_data.npz", mmap_mode="r") as f:
+    with np.load("docs/assets/video_data_ions_vectorized.npz", mmap_mode="r") as f:
         w = f["w"]
         x = f["x_ax"]
         y = f["y_ax"]
+    if x.shape[0] != y.shape[0]:
+        y = y.T
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.set(xlim=(-1e-6, 6e-6), ylim=(-1.1, 1.1))
+    # Electrons
+    # ax.set(xlim=(-1e-6, 6e-6), ylim=(-1.1, 1.1))
+    # ax.set(xlim=(- 1e-5, 1.6e-4), ylim=(-1.1, 1.1))
+    # Ions
+    ax.set(xlim=(-2e-6, 1e-5), ylim=(-1.1, 1.1))
     # ax.set(xlim=(- 1e-5, 1.6e-4), ylim=(-1.1, 1.1))
     inityr = np.real(y[:, 0])
     inityi = np.imag(y[:, 0])
@@ -160,33 +167,56 @@ def extra_mov(save=False):
     )
     plt.show()
     if save:
-        ani.save("video.mp4", writer=animation.FFMpegWriter(fps=60), dpi=400)
+        ani.save("video_ions_zoom.mp4", writer=animation.FFMpegWriter(fps=60), dpi=400)
     plt.close(fig)
 
 
-def extra_data():
+@nb.njit(parallel=True, cache=True)
+def extra_run() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    M = const.m_e
+    # M = 16 * (const.m_p + const.m_n) / 2
+    B = 3.5e-5
     T = cf.T_e
     aspect = cf.aspect * np.pi / 180
     k = -4 * np.pi * cf.f / const.c
-    w_c = isr.gyro("e", cf.B)
-    w = 2 * np.pi * np.linspace(0, int(1e7) ** (1 / cf.ORDER), int(1e3)) ** cf.ORDER
+    w_c = const.e * B / M  # isr.gyro("i", cf.B, M)
+    # w_c = const.e * B / M  # isr.gyro("i", cf.B, M)
+    w = 2 * np.pi * np.linspace(0, int(1e7) ** (1 / cf.ORDER), int(1e4)) ** cf.ORDER
     y = np.linspace(0, 1.5e-4 ** (1 / cf.ORDER), cf.N_Y) ** cf.ORDER
-    data = np.ndarray
-    for w_ in w:
-        G = isr.maxwellian_integrand(y, 0, k, aspect, T, w_c, const.m_e)
-        val = np.exp(1j * w_ * y) * G
-        if isinstance(data, type):
-            data = val
-        else:
-            data = np.c_[data, val]
-    x_ax = y
-    y_ax = data
-    np.savez("video_data.npz", w=w, x_ax=x_ax, y_ax=y_ax)
-    # return w, x_ax, y_ax
+    # y = np.linspace(0, 1.5e-2 ** (1 / cf.ORDER), cf.N_Y) ** cf.ORDER
+    G = isr.maxwellian_integrand(y, 0, k, aspect, T, w_c, const.m_e)
+    # G = isr.maxwellian_integrand(y, 0, k, aspect, T, w_c, M)
+    ## Original implementation // Took 261 seconds
+    # data = np.ndarray
+    # for w_ in w:
+    #     val = np.exp(1j * w_ * y) * G
+    #     if isinstance(data, type):
+    #         data = val
+    #     else:
+    #         data = np.c_[data, val]
+    ## Vectorized // 5.367 seconds (more load on mem, 1e4 freqs was killed...)
+    # data = np.exp(np.einsum('i,j->ij', w, 1j * y)) * G
+    ## Numba implementation // Took 3 sek, 15 with 1e4 freqs (~8 sec with cache on successive)
+    data = np.zeros((len(w), len(y)), dtype=np.complex64)
+    for i in nb.prange(len(w)):
+        val = np.exp(1j * w[i] * y) * G
+        data[i, :] = val
+    return y, np.asarray(data), w
+
+
+def extra_data():
+    t0 = time.perf_counter()
+    y, data, w = extra_run()
+    t1 = time.perf_counter()
+    print(f"Took {t1-t0:.3f} seconds")
+    # x_ax = y
+    # y_ax = data
+    # np.savez("video_data_ions_vectorized.npz", w=w, x_ax=x_ax, y_ax=y_ax)
 
 
 if __name__ == "__main__":
     # extra_mov()
+    # extra_data()
     prob3()
     prob4()
     prob5()
