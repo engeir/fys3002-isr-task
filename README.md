@@ -54,4 +54,4 @@ poetry run python src/isr_task/timing.py
 
 Uses [`black`](https://black.readthedocs.io/en/stable/),
 [`isort`](https://pycqa.github.io/isort/) and [`flake8`](https://flake8.pycqa.org/en/latest/) for formatting at commit
-through [`pre-commit`](https://pre-commit.com/).
+with [`pre-commit`](https://pre-commit.com/).
