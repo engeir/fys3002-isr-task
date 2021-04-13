@@ -43,8 +43,8 @@ Run as a package or as single scripts:
 
 ```sh
 poetry run isr-task
-poetry run python soln.py
-poetry run python timing.py
+poetry run python src/isr_task/soln.py
+poetry run python src/isr_task/timing.py
 .
 .
 .
