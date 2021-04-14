@@ -125,7 +125,7 @@ def F(f_ax: np.ndarray, y: np.ndarray, nu: float, G: np.ndarray) -> np.ndarray:
     """
     # Calculate the F functions that include susceptibility
     a = np.zeros(len(f_ax), dtype=np.complex128)
-    for f in range(len(f_ax)):
+    for f in nb.prange(len(f_ax)):
         w = 2 * np.pi * f_ax[f]
         sint = my_integration_method(w, y, G)
         a[f] = sint

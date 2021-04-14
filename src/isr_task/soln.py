@@ -30,12 +30,12 @@ def prob3():
     t1 = time.perf_counter()
     print(f"Took {t1-t0:.2f} seconds")
 
-    plt.figure(figsize=(7, 4))
+    plt.figure(figsize=(10, 6))
     plt.plot(x, y)
     plt.xlabel("Frequency $f$")
     plt.ylabel("Echo power [dB]")
-    plt.grid(alpha=0.4)
-    # plt.savefig('gyrolines.pdf')
+    plt.grid(alpha=0.2)
+    # plt.savefig('docs/gyrolines.pdf')
     plt.show()
 
 
@@ -64,7 +64,7 @@ def prob4():
     print(f"Took {t1-t0:.2f} seconds")
 
     lab = [r"$T_\mathrm{e}=\,$" + f"{t_e}" + r"$\,\mathrm{K}$" for t_e in T_E]
-    plt.figure("temps", figsize=(7, 4))
+    plt.figure("temps", figsize=(10, 6))
     pylt.ridge_plot(
         data,
         "squeeze",
@@ -77,7 +77,7 @@ def prob4():
     # for d, l in zip(data, lab):
     #     plt.plot(d[0], d[1], label=l)
     # plt.legend()
-    # plt.savefig('temps.pdf')
+    # plt.savefig('docs/temps.pdf', dpi=200)
     plt.show()
 
 
@@ -107,7 +107,7 @@ def prob5():
     print(f"Took {t1-t0:.2f} seconds")
 
     lab = [r"$T_\mathrm{e}=\,$" + f"{t_e}" + r"$\,\mathrm{K}$" for t_e in T_I]
-    plt.figure("temps", figsize=(7, 4))
+    plt.figure("temps", figsize=(10, 6))
     c = ["r", "g", "b", "magenta"]
     plt.grid(True, which="major", ls="-", alpha=0.2)
     for (x, y), col, l in zip(data[::-1], c, lab[::-1]):
@@ -118,7 +118,7 @@ def prob5():
     plt.ylabel("Echo power")
     # pylt.ridge_plot(data, 'squeeze', 'grid', xlabel='Frequency $f$', \
     #         ylabel='Echo power [dB]', labels=lab, figname='temps', ylim=(- 7e4, 6e5))
-    # plt.savefig('ionline_soln.pdf')
+    # plt.savefig('docs/ionline_soln.pdf')
     plt.show()
 
 
