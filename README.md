@@ -23,6 +23,18 @@ pyenv install 3.9.2
 
 </ul></details>
 
+It is good practice to use virtual environments. Creating one can be done in different
+ways, but with `pyenv` installed this is as easy as
+
+```sh
+pyenv virtualenv 3.9.2 my-new-venv
+pyenv activate my-new-venv
+```
+
+In the above code snippet, the virtual environment uses python3.9.2, which has to be
+installed before you run the commands. The name of the environment is `my-new-venv`, which
+is activated on the second line.
+
 <details><summary><i><b>Install poetry</b></i></summary><br><ul>
 
 ```sh
@@ -36,6 +48,9 @@ Install dependencies using poetry from folder `isr-task`:
 ```sh
 poetry install
 ```
+
+If a virtual environment is not activated when the `poetry install` command is run, a new
+one is created by poetry inside the project folder.
 
 ## Run
 
