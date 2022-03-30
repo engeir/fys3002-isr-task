@@ -1,10 +1,11 @@
 import sys
 
-import config as cf
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.constants as const
 import scipy.integrate as si
+
+import isr_task.config as cf
 
 plt.rcParams.update(
     {
@@ -86,9 +87,9 @@ def isr(params: dict = None) -> tuple[np.ndarray, np.ndarray]:
     Fe = F(f_ax, y_e, nu, G_e)
     Fi = F(f_ax, y_i, nu, G_i)
 
-    Xp = (1 / (2 * l_D ** 2 * k ** 2)) ** (1 / 2)
-    chi_e = 2 * Xp ** 2 * Fe
-    chi_i = 2 * Xp ** 2 * Fi
+    Xp = (1 / (2 * l_D**2 * k**2)) ** (1 / 2)
+    chi_e = 2 * Xp**2 * Fe
+    chi_i = 2 * Xp**2 * Fi
 
     # Calculate the IS spectrum (and ignore "divide" and "invalid" errors)
     with np.errstate(divide="ignore", invalid="ignore"):
@@ -161,11 +162,11 @@ def maxwellian_integrand(
     """
     G = np.exp(
         -y * nu
-        - k ** 2
+        - k**2
         * np.sin(aspect) ** 2
         * T
         * const.k
-        / (m * w_c ** 2)
+        / (m * w_c**2)
         * (1 - np.cos(w_c * y))
         - 0.5 * (k * np.cos(aspect) * y) ** 2 * T * const.k / m
     )
@@ -211,7 +212,7 @@ def debye(T: float, n: float) -> float:
         The Debye length
     """
     ep0 = 1e-9 / 36 / np.pi
-    l_D = (ep0 * const.k * T / (n * const.e ** 2)) ** (1 / 2)
+    l_D = (ep0 * const.k * T / (n * const.e**2)) ** (1 / 2)
     return l_D
 
 
